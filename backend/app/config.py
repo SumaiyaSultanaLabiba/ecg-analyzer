@@ -3,5 +3,5 @@
 
 
 PHYSIONET_DB_NAME = "mitdb"
-
+SECONDS = 10
 
