@@ -1,10 +1,12 @@
 
 import React, { useEffect, useState } from 'react';
-import { fetchRecordList, api, fetchAnalysis, fetchValidation } from "../api.js";
 
 
 export default function HeartbeatPanel({ filteredSignal, rPeakIndices, heartRateBpm }) {
-  if (!filteredSignal) return <p>No data yet — select a record.</p>;
+  if (!filteredSignal || !rPeakIndices || !heartRateBpm) 
+  {
+    return <p>No data yet — select a record.</p>;
+  }
 
   return (
     <div>

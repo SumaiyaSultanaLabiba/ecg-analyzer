@@ -5,26 +5,31 @@ import FilteredSignalPanel from "./components/FilteredSignalPanel";
 import HeartbeatPanel from "./components/HeartbeatPanel";
 import SpectrumPanel from "./components/SpectrumPanel";
 import ValidationDashboard from "./components/ValidationDashboard";
-import { fetchAnalysis } from "./api";
+import { fetchAnalysis, fetchValidation } from "./api";
 
 
 
 function App() {
   const [recordName, setRecordName] = useState(null);
   const [analysis, setAnalysis] = useState(null);
+  const [validation, setValidation] = useState(null);
+
 
   async function handleSelect(name) {
     setRecordName(name);
     try {
-      const result = await fetchAnalysis(name);
-      setAnalysis(result);
+      const resultAnalysis = await fetchAnalysis(name);
+      setAnalysis(resultAnalysis);
+      const resultValidation = await fetchValidation(name);
+      setValidation(resultValidation);
     } catch (err) {
       console.error(err);
     }
   }
 
+
   return (
-    <div style={{ padding: "1rem" }}>
+    <div>
       <h1>ECG Signal Analyzer</h1>
       <RecordSelector onSelect={handleSelect} />
 
@@ -40,7 +45,7 @@ function App() {
         fftMagnitudeRaw={analysis?.fft_magnitude_raw}
         fftMagnitudeFiltered={analysis?.fft_magnitude_filtered}
       />
-      {recordName && <ValidationDashboard recordName={recordName} />}
+      <ValidationDashboard validation={validation} />
     </div>
   );
 }

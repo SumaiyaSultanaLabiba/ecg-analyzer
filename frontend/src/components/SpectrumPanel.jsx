@@ -1,10 +1,12 @@
 
 import React, { useEffect, useState } from 'react';
-import { fetchRecordList, api, fetchAnalysis, fetchValidation } from "../api.js";
 
 
 export default function SpectrumPanel({ fftFreqs, fftMagnitudeRaw, fftMagnitudeFiltered }) {
-  if (!fftFreqs) return <p>No data yet — select a record.</p>;
+  if (!fftFreqs || !fftMagnitudeRaw || !fftMagnitudeFiltered)
+  {
+    return <p>No data yet — select a record.</p>;
+  }
 
   return (
     <div>

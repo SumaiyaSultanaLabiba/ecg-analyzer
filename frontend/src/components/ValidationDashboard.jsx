@@ -1,15 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
-import { fetchRecordList, api, fetchAnalysis, fetchValidation } from "../api.js";
 
 
-export default function ValidationDashboard({ recordName }) {
-  const [validation, setValidation] = useState(null);
-
-  useEffect(() => {
-    if (!recordName) return;
-    fetchValidation(recordName).then(setValidation).catch(console.error);
-  }, [recordName]);
+export default function ValidationDashboard({ validation }) {
 
   if (!validation) return <p>No validation data yet.</p>;
 

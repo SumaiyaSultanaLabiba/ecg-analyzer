@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { fetchRecordList, api, fetchAnalysis, fetchValidation } from "../api.js";
+import { fetchRecordList } from "../api";
 
 
 export default function RecordSelector({ onSelect }) {
