@@ -7,7 +7,7 @@ export default function RecordSelector({ onSelect }) {
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
-    fetchRecordList().then(setRecords).catch(console.error);
+    fetchRecordList().then((res) => setRecords(res.records)).catch(console.error);
   }, []);
 
   return (
