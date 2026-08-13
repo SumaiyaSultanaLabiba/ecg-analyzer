@@ -6,6 +6,10 @@ import HeartbeatPanel from "./components/HeartbeatPanel";
 import SpectrumPanel from "./components/SpectrumPanel";
 import ValidationDashboard from "./components/ValidationDashboard";
 import { fetchAnalysis, fetchValidation } from "./api";
+import heartIcon from "./assets/logo.jpg";
+import "./dashboard.css";
+
+
 
 
 
@@ -29,23 +33,40 @@ function App() {
 
 
   return (
-    <div>
-      <h1>ECG Signal Analyzer</h1>
-      <RecordSelector onSelect={handleSelect} />
+    <div className="ecg-app">
+      <header className="ecg-header">
+        <img src={heartIcon} alt="" className="header-icon" />
+        <h1>ELECTRO-CARDIOGRAM ANALYZER</h1>
+      </header>
 
-      <RawSignalPanel rawSignal={analysis?.raw_signal} />
-      <FilteredSignalPanel filteredSignal={analysis?.filtered_signal} />
-      <HeartbeatPanel
-        filteredSignal={analysis?.filtered_signal}
-        rPeakIndices={analysis?.r_peak_indices}
-        heartRateBpm={analysis?.heart_rate_bpm}
-      />
-      <SpectrumPanel
-        fftFreqs={analysis?.fft_freqs}
-        fftMagnitudeRaw={analysis?.fft_magnitude_raw}
-        fftMagnitudeFiltered={analysis?.fft_magnitude_filtered}
-      />
-      <ValidationDashboard validation={validation} />
+      <div className="ecg-main">
+        <RecordSelector onSelect={handleSelect} />
+
+        <main className="ecg-plots">
+          <RawSignalPanel 
+          rawSignal={analysis?.raw_signal} 
+          recordName={recordName}
+          />
+          <FilteredSignalPanel 
+          filteredSignal={analysis?.filtered_signal} 
+          recordName={recordName}
+          />
+          <HeartbeatPanel
+            filteredSignal={analysis?.filtered_signal}
+            rPeakIndices={analysis?.r_peak_indices}
+            heartRateBpm={analysis?.heart_rate_bpm}
+            recordName={recordName}
+          />
+          <SpectrumPanel
+            fftFreqs={analysis?.fft_freqs}
+            fftMagnitudeRaw={analysis?.fft_magnitude_raw}
+            fftMagnitudeFiltered={analysis?.fft_magnitude_filtered}
+            recordName={recordName}
+          />
+        </main>
+
+        <ValidationDashboard validation={validation} />
+      </div>
     </div>
   );
 }

@@ -1,22 +1,19 @@
+import React from "react";
+import SignalChart from "./SignalChart";
 
-import React, { useEffect, useState } from 'react';
-
-
-export default function HeartbeatPanel({ filteredSignal, rPeakIndices, heartRateBpm }) {
-  if (!filteredSignal || !rPeakIndices || !heartRateBpm) 
-  {
-    return <p>No data yet — select a record.</p>;
-  }
+export default function HeartbeatPanel({ filteredSignal, rPeakIndices, heartRateBpm,recordName }) {
+  const meta =
+    filteredSignal && rPeakIndices && heartRateBpm != null
+      ? `${rPeakIndices.length} beats detected · ${heartRateBpm.toFixed(1)} BPM`
+      : null;
 
   return (
-    <div>
-      <h3>Detected Heartbeats</h3>
-      <p>
-        <strong>Heart Rate:</strong> {heartRateBpm?.toFixed(1)} BPM
-      </p>
-      <p>{rPeakIndices?.length} beats detected</p>
-      {/* TODO: replace with a chart that overlays markers at rPeakIndices
-          on top of the filteredSignal line chart */}
-    </div>
+    <SignalChart
+      title={recordName?`Detected Heartbeats for Record ${recordName}`:`Detected Heartbeats`}
+      values={filteredSignal}
+      peakIndices={rPeakIndices}
+      lineColor="#2e7d32"
+      meta={meta}
+    />
   );
 }

@@ -35,8 +35,8 @@ def analyze(record_name: str):
 def validate(record_name: str):
     return ValidationResult(
         record_name = record_name,
-        precision = 5.6,
-        recall = 2.3,
+        precision = 0.56,
+        recall = 0.44,
         true_positive_count = 10,
         false_positive_count = 9,
         false_negative_count = 7,

@@ -1,15 +1,13 @@
+import React from "react";
+import SignalChart from "./SignalChart";
 
-import React, { useEffect, useState } from 'react';
-
-
-export default function RawSignalPanel({ rawSignal }) {
-  if (!rawSignal) return <p>No data yet — select a record.</p>;
-
+export default function RawSignalPanel({ rawSignal, recordName }) {
   return (
-    <div>
-      <h3>Raw Signal</h3>
-      {/* TODO: replace with <LineChart data={rawSignal} /> */}
-      <p>{rawSignal.length} samples loaded (chart goes here)</p>
-    </div>
+    <SignalChart
+      title={recordName?`Raw Signal for Record ${recordName}`:`Raw Signal`}
+      values={rawSignal}
+      lineColor="#1a73e8"
+      meta={rawSignal ? `${rawSignal.length} samples loaded` : null}
+    />
   );
 }

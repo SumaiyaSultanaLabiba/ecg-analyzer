@@ -1,15 +1,13 @@
+import React from "react";
+import SignalChart from "./SignalChart";
 
-import React, { useEffect, useState } from 'react';
-
-
-export default function FilteredSignalPanel({ filteredSignal }) {
-  if (!filteredSignal) return <p>No data yet — select a record.</p>;
-
+export default function FilteredSignalPanel({ filteredSignal, recordName }) {
   return (
-    <div>
-      <h3>Filtered Signal</h3>
-      {/* TODO: replace with <LineChart data={filteredSignal} /> */}
-      <p>{filteredSignal.length} samples (chart goes here)</p>
-    </div>
+    <SignalChart
+      title={recordName?`Filtered Signal ${recordName}`:`Filtered Signal`}
+      values={filteredSignal}
+      lineColor="#0d47a1"
+      meta={filteredSignal ? `${filteredSignal.length} samples` : null}
+    />
   );
 }

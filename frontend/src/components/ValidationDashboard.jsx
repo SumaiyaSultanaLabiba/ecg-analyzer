@@ -1,20 +1,34 @@
+import React from "react";
 
-import React, { useEffect, useState } from 'react';
-
+function ResultItem({ label, value }) {
+  return (
+    <div className="result-item">
+      <span className="result-value">{label} : {value}</span>
+    </div>
+  );
+}
 
 export default function ValidationDashboard({ validation }) {
-
-  if (!validation) return <p>No validation data yet.</p>;
-
   return (
-    <div>
-      <h3>Detection Accuracy (vs. PhysioNet ground truth)</h3>
-      <p>Precision: {(validation.precision * 100).toFixed(1)}%</p>
-      <p>Recall: {(validation.recall * 100).toFixed(1)}%</p>
-      <p>
-        TP: {validation.true_positive_count} | FP: {validation.false_positive_count} | FN:{" "}
-        {validation.false_negative_count}
-      </p>
-    </div>
+    <aside className="ecg-results">
+      <h2>Analysis Result</h2>
+      {validation ? (
+        <>
+          <h3>
+            Detection Accuracy
+            <br />
+            <span style={{ fontWeight: 400, color: "#00897b" }}>(vs. PhysioNet ground truth)</span>
+          </h3>
+          <ResultItem label="Precision" value={`${(validation.precision * 100).toFixed(1)}%`} />
+          <ResultItem label="Recall" value={`${(validation.recall * 100).toFixed(1)}%`} />
+          <div className="results-divider" />
+          <ResultItem label="True Positives" value={validation.true_positive_count} />
+          <ResultItem label="False Positives" value={validation.false_positive_count} />
+          <ResultItem label="False Negatives" value={validation.false_negative_count} />
+        </>
+      ) : (
+        <p className="results-empty">Run analysis to see results.</p>
+      )}
+    </aside>
   );
 }
