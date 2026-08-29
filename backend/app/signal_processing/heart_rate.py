@@ -5,5 +5,5 @@ def calculate_heart_rate(r_peaks,fs):
         return 0.0
     rr_intervals=np.diff(r_peaks)/fs
     mean_rr_interval=np.mean(rr_intervals)
-    hear_rate_bpm=60.0/mean_rr_interval
+    heart_rate_bpm=60.0/mean_rr_interval
     return float(np.round(heart_rate_bpm,2))

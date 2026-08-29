@@ -2,6 +2,10 @@
 from fastapi import APIRouter, HTTPException
 from app.data.loader import list_available_records, load_record, load_annotation
 from app.models.schemas import AnalysisResult, ValidationResult, RecordListResponse
+from app.signal_processing.filters import clean_ecg_signal
+from app.signal_processing.qrs_detector import detect_r_peaks
+from app.signal_processing.heart_rate import calculate_heart_rate
+from app.signal_processing.validation import calculate_validation_metrics
 
 
 
@@ -18,27 +22,46 @@ def get_records():
 @router.get("/analyze/{record_name}", response_model=AnalysisResult)
 def analyze(record_name: str):
     raw_signal, frequency = load_record(record_name)
+    
+    filtered_signal = clean_ecg_signal(raw_signal, frequency)
+    
+    r_peak_indices = detect_r_peaks(filtered_signal, frequency)
+    
+    heart_rate_bpm = calculate_heart_rate(r_peak_indices, frequency)
+    
+    fft_freqs = []
+    fft_magnitude_raw = []
+    fft_magnitude_filtered = []
+    
     return AnalysisResult(
-        record_name = record_name,
-        sampling_rate = frequency,
-        raw_signal = raw_signal.tolist(),
-        filtered_signal = raw_signal.tolist(),
-        r_peak_indices = [int(x) for x in raw_signal.tolist()],
-        heart_rate_bpm = 70.6,
-        fft_freqs = raw_signal.tolist(),
-        fft_magnitude_raw = raw_signal.tolist(),
-        fft_magnitude_filtered = raw_signal.tolist(),
+        record_name=record_name,
+        sampling_rate=frequency,
+        raw_signal=raw_signal.tolist(),
+        filtered_signal=filtered_signal.tolist(),
+        r_peak_indices=[int(x) for x in r_peak_indices],
+        heart_rate_bpm=heart_rate_bpm,
+        fft_freqs=fft_freqs,
+        fft_magnitude_raw=fft_magnitude_raw,
+        fft_magnitude_filtered=fft_magnitude_filtered,
     )
 
 
 @router.get("/validate/{record_name}", response_model=ValidationResult)
 def validate(record_name: str):
+    raw_signal, frequency = load_record(record_name)
+    filtered_signal = clean_ecg_signal(raw_signal, frequency)
+    detected_peaks = detect_r_peaks(filtered_signal, frequency)
+    
+    ground_truth_peaks = load_annotation(record_name)
+    
+    metrics = calculate_validation_metrics(detected_peaks, ground_truth_peaks)
+    
     return ValidationResult(
-        record_name = record_name,
-        precision = 0.56,
-        recall = 0.44,
-        true_positive_count = 10,
-        false_positive_count = 9,
-        false_negative_count = 7,
+        record_name=record_name,
+        precision=metrics['precision'],
+        recall=metrics['recall'],
+        true_positive_count=metrics['true_positive_count'],
+        false_positive_count=metrics['false_positive_count'],
+        false_negative_count=metrics['false_negative_count'],
     )
 

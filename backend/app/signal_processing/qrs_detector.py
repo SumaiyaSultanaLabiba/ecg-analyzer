@@ -21,8 +21,24 @@ def detect_r_peaks(filtered_signal,fs):
     #peak detection
     min_distance=int(0.200*fs)
     threshold=np.mean(integrated_signal)*1.5
-    peaks,_=find_peaks(integrated_signal,min_distance,threshold)
-    return peaks
+    peaks,_=find_peaks(integrated_signal, distance=min_distance, height=threshold)
+    
+    # find peak positions in original filtered signal
+    search_window = int(0.075 * fs)  # 75ms window around detected peak
+    refined_peaks = []
+    
+    for peak_idx in peaks:
+        start = max(0, peak_idx - search_window)
+        end = min(len(filtered_signal), peak_idx + search_window)
+        
+        # Find max in the filtered signal within this window
+        local_segment = filtered_signal[start:end]
+        local_max_idx = np.argmax(local_segment)
+        
+        refined_peak = start + local_max_idx
+        refined_peaks.append(refined_peak)
+    
+    return np.array(refined_peaks)
 
 
 
