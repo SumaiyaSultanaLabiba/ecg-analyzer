@@ -33,23 +33,19 @@ export default function SignalChart({
     );
   }
 
-  const data = values.map((y, i) => ({
+  //dataWithPeaks array,oi point e peak thakle peak property set korbo,nahole null
+  const peakSet = new Set(peakIndices || []);
+  const dataWithPeaks = values.map((y, i) => ({
     x: xValues ? xValues[i] : i,
     y,
+    peak: peakSet.has(i) ? y : null,  
   }));
-
-  const peakData = (peakIndices || [])
-    .filter((i) => i < values.length)
-    .map((i) => ({
-      x: xValues ? xValues[i] : i,
-      y: values[i],
-    }));
 
   return (
     <div className="chart-card">
       <h3 className="chart-title">{title}</h3>
       <ResponsiveContainer width="100%" height={height}>
-        <ComposedChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 4 }}>
+        <ComposedChart data={dataWithPeaks} margin={{ top: 10, right: 20, left: 0, bottom: 4 }}>
           <CartesianGrid stroke="#e9ecef" strokeDasharray="3 3" />
           <XAxis
             dataKey="x"
@@ -62,14 +58,18 @@ export default function SignalChart({
           <Line
             type="monotone"
             dataKey="y"
-            data={data}
             stroke={lineColor}
             strokeWidth={1.5}
             dot={false}
             isAnimationActive={false}
           />
-          {peakData.length > 0 && (
-            <Scatter data={peakData} dataKey="y" fill="#e63946" isAnimationActive={false} />
+          {peakIndices && peakIndices.length > 0 && (
+            <Scatter 
+              dataKey="peak"
+              fill="#e63946" 
+              r={5}
+              isAnimationActive={false} 
+            />
           )}
         </ComposedChart>
       </ResponsiveContainer>
