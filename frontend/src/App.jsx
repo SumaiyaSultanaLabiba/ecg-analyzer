@@ -21,23 +21,13 @@ function App() {
   const [analysis, setAnalysis] = useState(null);
   const [validation, setValidation] = useState(null);
   const [diagnostics, setDiagnostics] = useState(null);
+  const [loading, setLoading] = useState(false);
 
 
-  /*async function handleSelect(name) {
-    setRecordName(name);
-    try {
-      const resultAnalysis = await fetchAnalysis(name);
-      setAnalysis(resultAnalysis);
-      const resultValidation = await fetchValidation(name);
-      setValidation(resultValidation);
-      const resultDiagnostics = await fetchDiagnostics(name);
-      setDiagnostics(resultDiagnostics);
-    } catch (err) {
-      console.error(err);
-    }
-  }*/
+
  async function handleSelect(name) {
   setRecordName(name);
+  setLoading(true);
   try {
     const [resultAnalysis, resultValidation, resultDiagnostics] = await Promise.all([
       fetchAnalysis(name),
@@ -50,6 +40,8 @@ function App() {
     setDiagnostics(resultDiagnostics);
   } catch (err) {
     console.error("Error fetching record data:", err);
+  }finally{
+    setTimeout(() => setLoading(false), 1000);
   }
 }
 
@@ -62,6 +54,12 @@ function App() {
       </header>
 
       <div className="ecg-main">
+        {loading && (
+        <div className="global-spinner">
+        <div className="loader"></div>
+        </div>
+      )}
+
         <RecordSelector onSelect={handleSelect} />
 
         <main className="ecg-plots">
@@ -87,7 +85,7 @@ function App() {
           />
 
           <SignalChart
-            title="Filtered Signal"
+            title={`Beat type for record ${recordName}`}
             values={analysis?.filtered_signal}
             peakIndices={analysis?.r_peak_indices}
             markerSets={
@@ -97,8 +95,8 @@ function App() {
           }
         />
 
-        <HRVPanel diagnostics={diagnostics} />
-        <DiagnosticSummaryPanel diagnostics={diagnostics} />
+        <HRVPanel diagnostics={diagnostics} record_name={recordName}/>
+        <DiagnosticSummaryPanel diagnostics={diagnostics}/>
         </main>
 
         <ValidationDashboard validation={validation} />

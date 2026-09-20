@@ -9,7 +9,7 @@ import React from "react";
  * deliberate, not decorative — keep it visible, it's what makes an
  * "abnormal" badge honest rather than an overclaim.
  */
-export default function DiagnosticSummaryPanel({ diagnostics }) {
+export default function DiagnosticSummaryPanel({ diagnostics}) {
   if (!diagnostics) {
     return (
       <div className="chart-card">

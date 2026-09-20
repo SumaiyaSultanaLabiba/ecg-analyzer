@@ -10,7 +10,7 @@ import SignalChart from "./SignalChart";
  * Reuses the existing SignalChart component, unmodified in its basic usage —
  * these two charts just need line data, no peak markers.
  */
-export default function HRVPanel({ diagnostics }) {
+export default function HRVPanel({ diagnostics, record_name }) {
   if (!diagnostics) {
     return (
       <div className="chart-card">
@@ -55,7 +55,7 @@ export default function HRVPanel({ diagnostics }) {
       </table>
 
       <SignalChart
-        title="R-R Interval Tachogram"
+        title={`R-R Interval Tachogram for record ${record_name}`}
         values={rr_intervals}
         xValues={rr_times}
         xLabel="Time (s)"
@@ -64,7 +64,7 @@ export default function HRVPanel({ diagnostics }) {
       />
 
       <SignalChart
-        title="R-R Power Spectrum (LF/HF)"
+        title={`R-R Power Spectrum (LF/HF) for record ${record_name}`}
         values={psd_values}
         xValues={psd_freqs}
         xLabel="Frequency (Hz)"
