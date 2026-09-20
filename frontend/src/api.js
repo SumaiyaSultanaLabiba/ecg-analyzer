@@ -24,3 +24,7 @@ export async function fetchValidation(recordName) {
 }
 
 
+export async function fetchDiagnostics(recordName) {
+  const res = await api.get(`/diagnose/${recordName}`);
+  return res.data;
+}

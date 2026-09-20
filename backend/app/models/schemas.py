@@ -42,3 +42,34 @@ class ValidationResult(BaseModel):
 # users can choose any of these records and send it for analyzing
 class RecordListResponse(BaseModel):
     records: list[str]
+
+
+class HRVMetrics(BaseModel):
+    sdnn_ms: float
+    rmssd_ms: float
+    pnn50_percent: float
+    lf_power: float
+    hf_power: float
+    lf_hf_ratio: float
+
+class RhythmClassification(BaseModel):
+    tachycardia: bool
+    bradycardia: bool
+    irregular_rhythm: bool
+    abnormal_beats_detected: bool
+
+
+class CardiacDiagnosticsResult(BaseModel):
+    record_name: str
+    rr_times: list[float]
+    rr_intervals: list[float]
+    psd_freqs: list[float]
+    psd_values: list[float]
+    hrv_metrics: HRVMetrics
+    rhythm_classification: RhythmClassification
+    abnormal_beat_indices: list[int]
+    status: str
+    notes: str
+    
+    
+    

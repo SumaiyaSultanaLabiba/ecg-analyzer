@@ -291,3 +291,16 @@
   color: #00897b;
   font-style: italic;
 }
+
+
+.status-badge { padding: 8px 16px; border-radius: 6px; font-weight: 600; display: inline-block; margin-bottom: 12px; }
+.status-normal { background: #d4edda; color: #155724; }
+.status-abnormal { background: #fff3cd; color: #856404; }
+.rhythm-flags { list-style: none; padding: 0; }
+.rhythm-flags li { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+.flag-dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; }
+.flag-active .flag-dot { background: #ff9800; }
+.flag-inactive { color: #999; }
+.metrics-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+.metrics-table td, .metrics-table th { padding: 6px 10px; text-align: left; border-bottom: 1px solid #eee; }
+.disclaimer-text { font-size: 11px; color: #888; font-style: italic; margin-top: 8px; }

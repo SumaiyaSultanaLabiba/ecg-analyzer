@@ -6,4 +6,4 @@
 
 PHYSIONET_DB_NAME = "mitdb"
 SECONDS = 10
-
+RR_RESAMPLE_HZ = 4.0

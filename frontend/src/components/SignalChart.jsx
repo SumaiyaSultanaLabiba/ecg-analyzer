@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   ComposedChart,
@@ -6,18 +7,17 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  Legend,
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
 
-/**
- * Shared line chart for signal panels. Plots `values` (array of numbers)
- * against sample index, and optionally overlays red dots at `peakIndices`.
- */
+
 export default function SignalChart({
   title,
   values,
   peakIndices,
+  markerSets,
   xValues,
   xLabel = "Sample",
   lineColor = "#1565c0",
@@ -33,19 +33,32 @@ export default function SignalChart({
     );
   }
 
-  //dataWithPeaks array,oi point e peak thakle peak property set korbo,nahole null
-  const peakSet = new Set(peakIndices || []);
-  const dataWithPeaks = values.map((y, i) => ({
-    x: xValues ? xValues[i] : i,
-    y,
-    peak: peakSet.has(i) ? y : null,  
-  }));
+  // Combine the legacy single peakIndices series with any additional
+  // markerSets into one uniform list of { indices, color, label }.
+  const allMarkerSeries = [
+    ...(peakIndices && peakIndices.length > 0
+      ? [{ indices: peakIndices, color: "#e63946", label: "Detected beat" }]
+      : []),
+    ...(markerSets || []),
+  ];
+
+  // Precompute one Set per series (once, not per data point).
+  const markerIndexSets = allMarkerSeries.map((series) => new Set(series.indices));
+
+  const dataWithMarkers = values.map((y, i) => {
+    const point = { x: xValues ? xValues[i] : i, y };
+    allMarkerSeries.forEach((series, seriesIdx) => {
+      const key = series.label ?? `marker_${seriesIdx}`;
+      point[key] = markerIndexSets[seriesIdx].has(i) ? y : null;
+    });
+    return point;
+  });
 
   return (
     <div className="chart-card">
       <h3 className="chart-title">{title}</h3>
       <ResponsiveContainer width="100%" height={height}>
-        <ComposedChart data={dataWithPeaks} margin={{ top: 10, right: 20, left: 0, bottom: 4 }}>
+        <ComposedChart data={dataWithMarkers} margin={{ top: 10, right: 20, left: 0, bottom: 4 }}>
           <CartesianGrid stroke="#e9ecef" strokeDasharray="3 3" />
           <XAxis
             dataKey="x"
@@ -55,22 +68,26 @@ export default function SignalChart({
           />
           <YAxis tick={{ fontSize: 10, fill: "#607d8b" }} stroke="#b0bec5" width={44} />
           <Tooltip contentStyle={{ fontSize: 12 }} />
+          {allMarkerSeries.length > 1 && <Legend wrapperStyle={{ fontSize: 11 }} />}
           <Line
             type="monotone"
             dataKey="y"
+            name={title}
             stroke={lineColor}
             strokeWidth={1.5}
             dot={false}
             isAnimationActive={false}
           />
-          {peakIndices && peakIndices.length > 0 && (
-            <Scatter 
-              dataKey="peak"
-              fill="#e63946" 
+          {allMarkerSeries.map((series, i) => (
+            <Scatter
+              key={series.label ?? i}
+              dataKey={series.label ?? `marker_${i}`}
+              name={series.label}
+              fill={series.color}
               r={5}
-              isAnimationActive={false} 
+              isAnimationActive={false}
             />
-          )}
+          ))}
         </ComposedChart>
       </ResponsiveContainer>
       {meta && <p className="chart-meta">{meta}</p>}
