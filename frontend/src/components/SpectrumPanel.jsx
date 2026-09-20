@@ -43,8 +43,8 @@ export default function SpectrumPanel({ fftFreqs, fftMagnitudeRaw, fftMagnitudeF
           <YAxis tick={{ fontSize: 10, fill: "#607d8b" }} stroke="#b0bec5" width={44} />
           <Tooltip contentStyle={{ fontSize: 12 }} />
           <Legend wrapperStyle={{ fontSize: 11 }} />
-          <Line type="monotone" dataKey="raw" name="Raw" stroke="#9c27b0" strokeWidth={1.5} dot={false} isAnimationActive={false} />
-          <Line type="monotone" dataKey="filtered" name="Filtered" stroke="#6a1b9a" strokeWidth={1.5} dot={false} isAnimationActive={false} />
+          <Line type="monotone" dataKey="raw" name="Raw" stroke="#ff6b6b" strokeWidth={2} dot={false} isAnimationActive={false} />
+          <Line type="monotone" dataKey="filtered" name="Filtered" stroke="#4dabf7" strokeWidth={2} dot={false} isAnimationActive={false} />
         </LineChart>
       </ResponsiveContainer>
       <p className="chart-meta">{fftFreqs.length} frequency bins</p>

@@ -6,6 +6,7 @@ from app.signal_processing.filters import clean_ecg_signal
 from app.signal_processing.qrs_detector import detect_r_peaks
 from app.signal_processing.heart_rate import calculate_heart_rate
 from app.signal_processing.validation import calculate_validation_metrics
+from app.signal_processing.spectrum import compute_frequency_spectrum
 from app.config import RR_RESAMPLE_HZ
 from app.cardiac_diagnostics.rr_interval_analysis import compute_rr_intervals, resample_rr_uniform
 from app.cardiac_diagnostics.hrv_time_domain import compute_sdnn, compute_rmssd, compute_pnn50
@@ -36,9 +37,10 @@ def analyze(record_name: str):
     
     heart_rate_bpm = calculate_heart_rate(r_peak_indices, frequency)
     
-    fft_freqs = []
-    fft_magnitude_raw = []
-    fft_magnitude_filtered = []
+    
+    fft_freqs_raw, fft_magnitude_raw = compute_frequency_spectrum(raw_signal, frequency)
+    
+    fft_freqs_filtered, fft_magnitude_filtered = compute_frequency_spectrum(filtered_signal, frequency)
     
     return AnalysisResult(
         record_name=record_name,
@@ -47,9 +49,9 @@ def analyze(record_name: str):
         filtered_signal=filtered_signal.tolist(),
         r_peak_indices=[int(x) for x in r_peak_indices],
         heart_rate_bpm=heart_rate_bpm,
-        fft_freqs=fft_freqs,
-        fft_magnitude_raw=fft_magnitude_raw,
-        fft_magnitude_filtered=fft_magnitude_filtered,
+        fft_freqs=fft_freqs_raw.tolist(),
+        fft_magnitude_raw=fft_magnitude_raw.tolist(),
+        fft_magnitude_filtered=fft_magnitude_filtered.tolist(),
     )
 
 
