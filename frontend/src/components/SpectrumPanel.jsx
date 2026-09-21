@@ -10,8 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// Spectrum needs two overlaid series (raw vs. filtered magnitude), so it
-// uses recharts directly rather than the shared single-line SignalChart.
+
 export default function SpectrumPanel({ fftFreqs, fftMagnitudeRaw, fftMagnitudeFiltered, recordName }) {
   if (!fftFreqs || !fftMagnitudeRaw || !fftMagnitudeFiltered) {
     return (

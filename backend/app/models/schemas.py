@@ -1,7 +1,5 @@
 
 # all pydantic models. We may use these models for exchanging data between backend and frontend
-# these are just some initial ideas. 
-# When you start to build the signal processing pipeline, you may change the fields or anything as needed.
 
 from pydantic import BaseModel
 

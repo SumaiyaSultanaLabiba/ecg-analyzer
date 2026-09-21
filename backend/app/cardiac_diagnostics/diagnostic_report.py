@@ -1,10 +1,3 @@
-"""
-NOT YET SCOPED IN DETAIL.
-
-Preview: assembles everything above into one structured summary dict for a
-given recording -- this is what the new API endpoint and frontend panel will consume.
-"""
-
 
 def generate_report(record_name: str, heart_rate_bpm: float, hrv_metrics: dict, rhythm_classification: dict) -> dict:
     report = {

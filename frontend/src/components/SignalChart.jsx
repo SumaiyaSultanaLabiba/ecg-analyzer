@@ -32,8 +32,7 @@ export default function SignalChart({
     );
   }
 
-  // Combine the legacy single peakIndices series with any additional
-  // markerSets into one uniform list of { indices, color, label }.
+ 
   const allMarkerSeries = [
     ...(peakIndices && peakIndices.length > 0
       ? [{ indices: peakIndices, color: "#e63946", label: "Detected beat" }]
@@ -41,7 +40,7 @@ export default function SignalChart({
     ...(markerSets || []),
   ];
 
-  // Precompute one Set per series (once, not per data point).
+
   const markerIndexSets = allMarkerSeries.map((series) => new Set(series.indices));
 
   const dataWithMarkers = values.map((y, i) => {

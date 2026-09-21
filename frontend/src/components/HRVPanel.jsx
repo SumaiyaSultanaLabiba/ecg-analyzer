@@ -1,15 +1,7 @@
 import React from "react";
 import SignalChart from "./SignalChart";
 
-/**
- * Displays HRV (Heart Rate Variability) analysis:
- * - a metrics table (time-domain + frequency-domain)
- * - the R-R interval tachogram (irregular beat-to-beat variation over time)
- * - the LF/HF power spectrum (frequency-domain view of that variability)
- *
- * Reuses the existing SignalChart component, unmodified in its basic usage —
- * these two charts just need line data, no peak markers.
- */
+
 export default function HRVPanel({ diagnostics, record_name }) {
   if (!diagnostics) {
     return (

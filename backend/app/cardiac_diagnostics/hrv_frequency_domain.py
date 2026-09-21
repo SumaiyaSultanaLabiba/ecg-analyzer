@@ -1,17 +1,8 @@
-"""
-NOT YET SCOPED IN DETAIL — comes after hrv_time_domain.py.
-
-Preview: Welch's method PSD estimation on the UNIFORM resampled R-R signal
-(from rr_interval_analysis.resample_rr_uniform()), then integrating power in
-the LF band (0.04-0.15 Hz) and HF band (0.15-0.4 Hz) to get the LF/HF ratio.
-Course connection: Discrete-Time Fourier Transform, frequency-domain analysis.
-"""
 
 import numpy as np
 
 
 def dft(x):
-    """determining the dft of x"""
     x = np.asarray(x, dtype = complex)
     N = len(x)
     X = np.zeros(N, dtype = complex)
@@ -36,7 +27,6 @@ def periodogram(segment, fs):
 
 
 def compute_psd_welch(uniform_rr: np.ndarray, resample_rate_hz: float):
-    """Power spectral density via Welch's method"""
     nperseg = 256
     noverlap = 128
     
@@ -64,7 +54,6 @@ def compute_psd_welch(uniform_rr: np.ndarray, resample_rate_hz: float):
 
 
 def compute_lf_hf_ratio(freqs: np.ndarray, psd: np.ndarray) -> dict:
-    """Integrate power in LF (0.04-0.15Hz) and HF (0.15-0.4Hz) bands, return ratio."""
     lf_band = (freqs >= 0.04) & (freqs < 0.15)
     hf_band = (freqs >= 0.15) & (freqs < 0.4)
     lf_power = np.trapezoid(psd[lf_band], freqs[lf_band])

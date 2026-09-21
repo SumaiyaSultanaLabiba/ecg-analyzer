@@ -4,9 +4,6 @@ import numpy as np
 from app.config import PHYSIONET_DB_NAME, SECONDS
 
 
-# এই ফাইলটা আমি কমপ্লিট করে রাখছি,আপাতত কোনো মডিফিকেশন লাগবে না I guess। 
-# পরে শুধু অনেকগুলা রেকর্ড নিয়ে কাজ করার জন্য list_available_records -কে স্কেলআপ করতে হবে।
-
 
 def list_available_records():
     return ["100", "101", "102", "103", "104", "105", "106", "107", "108", "109",

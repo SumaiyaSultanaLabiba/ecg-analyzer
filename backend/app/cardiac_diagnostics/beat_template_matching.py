@@ -1,11 +1,3 @@
-"""
-NOT YET SCOPED IN DETAIL.
-
-Preview: build an average "normal beat" template from a window around each
-R-peak, then cross-correlate every individual beat against it to flag beats
-that deviate in shape (possible PVCs). Course connection: convolution/
-correlation, LTI systems.
-"""
 
 import numpy as np
 

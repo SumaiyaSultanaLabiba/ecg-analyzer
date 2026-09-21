@@ -1,14 +1,7 @@
 import React from "react";
 
-/**
- * Top-level "clinical summary" panel: overall status, individual rhythm
- * flags, and which beats were flagged as abnormal by beat_template_matching.py.
- *
- * IMPORTANT (for your report/demo): this is a rule-based pattern-flagging
- * prototype, not a clinical diagnostic tool. The disclaimer text below is
- * deliberate, not decorative — keep it visible, it's what makes an
- * "abnormal" badge honest rather than an overclaim.
- */
+
+
 export default function DiagnosticSummaryPanel({ diagnostics}) {
   if (!diagnostics) {
     return (
