@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 export const api = axios.create({
-    baseURL : "https://ecg-analyzer-3urd.onrender.com/"
+    baseURL : "https://ecg-analyzer-3urd.onrender.com/api"
 });
 
 
