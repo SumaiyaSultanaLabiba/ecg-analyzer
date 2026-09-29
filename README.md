@@ -5,7 +5,7 @@
 **A real-time cardiac diagnostics pipeline**, built entirely on classical signal processing — no black-box machine learning. Raw ECG voltage goes in; a cleaned waveform, detected heartbeats, HRV analysis, and a rule-based rhythm diagnosis come out.
 
 **Team Signum** — Sumaiya Sultana Labiba (2305044) · Safa Tasnim (2305056)
-CSE 220: Signals and Systems Sessional, BUET
+CSE 220: Signals and Linear Systems Sessional, BUET
 
 🔗 **[Live Demo](https://electrocradiogram-analyzer.onrender.com)** · 📦 **[Repository](https://github.com/SumaiyaSultanaLabiba/ecg-analyzer)**
 
